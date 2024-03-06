@@ -74,7 +74,7 @@ const Profile = ({
                   <span className="text-zinc-400">{' · '}</span>
                 ),
                 !!stint && (
-                  <small className=" text-xs text-zinc-500">
+                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">
                     {stint.batch?.name || stint.title}
                   </small>
                 ),
