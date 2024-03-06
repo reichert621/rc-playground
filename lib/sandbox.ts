@@ -38,9 +38,10 @@ class TicTacToe {
     }
 
     makeMove(row: number, col: number, player: string) {
-        if (this.board[row][col] === ' ') {
-            this.board[row][col] = player;
+        if (this.board[row][col] !== ' ') {
+            throw new Error('This spot is already filled');
         }
+        this.board[row][col] = player;
     }
 
     playGame() {
