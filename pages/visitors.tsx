@@ -5,7 +5,7 @@ import {cn} from '@/lib/utils';
 import {RcPerson, useHubVisitors} from '@/lib/api';
 import {ProfileDialog} from '@/components/ProfileDialog';
 
-const IndexPage: NextPage = () => {
+const VisitorsPage: NextPage = () => {
   const [selected, setSelectedProfile] = React.useState<RcPerson | null>(null);
   const [isViewingProfile, setViewingState] = React.useState(false);
   const {
@@ -69,4 +69,4 @@ const IndexPage: NextPage = () => {
   );
 };
 
-export default IndexPage;
+export default VisitorsPage;
