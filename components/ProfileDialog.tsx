@@ -195,7 +195,7 @@ export const ProfileDialog = ({
 }) => {
   return (
     <Dialog open={open}>
-      <DialogContent className="max-h-[90vh] gap-4 overflow-scroll sm:max-w-xl">
+      <DialogContent className="max-h-[90vh] gap-4 overflow-auto sm:max-w-xl">
         <div className="flex justify-end">
           <DialogClose asChild>
             <Button
