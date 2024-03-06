@@ -48,8 +48,8 @@ class TicTacToe {
         let player = 'X';
         while (true) {
             this.printBoard();
-            let row = prompt(`Player ${player}, enter your move row (0, 1, or 2):`);
-            let col = prompt(`Player ${player}, enter your move column (0, 1, or 2):`);
+            let row = Number(prompt(`Player ${player}, enter your move row (0, 1, or 2):`));
+            let col = Number(prompt(`Player ${player}, enter your move column (0, 1, or 2):`));
             this.makeMove(row, col, player);
             if (this.checkWin(player)) {
                 console.log(`Player ${player} wins!`);
