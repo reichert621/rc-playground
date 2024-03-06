@@ -176,7 +176,7 @@ const Profile = ({
         {interests && (
           <div>
             <Label className="">Interests</Label>
-            <p className="text-sm text-zinc-700">{interests}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">{interests}</p>
           </div>
         )}
       </div>
