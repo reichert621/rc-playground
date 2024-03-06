@@ -1,3 +1,7 @@
+export function greet(): string {
+    return "Hello, world!";
+}
+
 class Calculator {
     /**
      * Adds two numbers together.
