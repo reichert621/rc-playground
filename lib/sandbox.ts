@@ -44,6 +44,22 @@ class TicTacToe {
         this.board[row][col] = player;
     }
 
+    getWinningMove(player: string): [number, number] | null {
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                if (this.board[row][col] === ' ') {
+                    this.board[row][col] = player;
+                    if (this.checkWin(player)) {
+                        this.board[row][col] = ' ';
+                        return [row, col];
+                    }
+                    this.board[row][col] = ' ';
+                }
+            }
+        }
+        return null;
+    }
+
     getRandomValidMove(): [number, number] {
         let validMoves: [number, number][] = [];
         for (let row = 0; row < 3; row++) {
