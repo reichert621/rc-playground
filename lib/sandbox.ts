@@ -43,4 +43,20 @@ class Calculator {
         }
         return Math.sqrt(number);
     }
+
+    volumeOfCube(side: number): number {
+        return Math.pow(side, 3);
+    }
+
+    volumeOfSphere(radius: number): number {
+        return (4 / 3) * Math.PI * Math.pow(radius, 3);
+    }
+
+    volumeOfCylinder(radius: number, height: number): number {
+        return Math.PI * Math.pow(radius, 2) * height;
+    }
+
+    volumeOfCone(radius: number, height: number): number {
+        return (1 / 3) * Math.PI * Math.pow(radius, 2) * height;
+    }
 }
