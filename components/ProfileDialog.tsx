@@ -68,7 +68,7 @@ const Profile = ({
             <div className="flex items-center gap-1">
               {[
                 !!pronouns && (
-                  <small className=" text-xs text-zinc-500">{pronouns}</small>
+                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">{pronouns}</small>
                 ),
                 !!pronouns && !!stint && (
                   <span className="text-zinc-400">{' · '}</span>
