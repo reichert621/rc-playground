@@ -2,8 +2,26 @@ import {NextPage} from 'next';
 import React from 'react';
 
 import {cn} from '@/lib/utils';
+import {RcPerson, useCurrentBatchProfiles} from '@/lib/api';
+import {ProfileDialog} from '@/components/ProfileDialog';
 
 const CurrentBatchPage: NextPage = () => {
+  const [selected, setSelectedProfile] = React.useState<RcPerson | null>(null);
+  const [isViewingProfile, setViewingState] = React.useState(false);
+  const {
+    data: profiles = [],
+    isLoading,
+    error,
+  } = useCurrentBatchProfiles({
+    // poll every 60s
+    refreshInterval: 60000,
+  });
+
+  const handleSelectProfile = (person: RcPerson) => {
+    setSelectedProfile(person);
+    setViewingState(true);
+  };
+
   return (
     <div
       className={cn(
@@ -15,7 +33,37 @@ const CurrentBatchPage: NextPage = () => {
           Currently at RC
         </h1>
         <p className="text-lg text-zinc-500">Who is in the current batches?</p>
-        {/* TODO: implement me! */}
+
+        <div className="my-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
+          {profiles
+            .sort((a, b) => {
+              return +new Date(b.updated_at) - +new Date(a.updated_at);
+            })
+            .map((profile) => {
+              const {person} = profile;
+
+              return (
+                <button
+                  key={person.id}
+                  className="group overflow-hidden rounded border bg-zinc-900 shadow-sm duration-500 animate-in fade-in-0 hover:shadow"
+                  onClick={() => handleSelectProfile(person)}
+                >
+                  <img
+                    className="aspect-square w-full opacity-90 transition-opacity group-hover:opacity-100"
+                    src={person.image_path}
+                  />
+                  <div className="w-full bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-800">
+                    {person.name}
+                  </div>
+                </button>
+              );
+            })}
+        </div>
+        <ProfileDialog
+          open={isViewingProfile}
+          person={selected}
+          onClose={() => setViewingState(false)}
+        />
       </main>
     </div>
   );
