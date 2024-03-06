@@ -170,7 +170,7 @@ const Profile = ({
         {!!duringRc && (
           <div>
             <Label className="">What I&apos;d like to work on</Label>
-            <p className="text-sm text-zinc-700">{duringRc}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">{duringRc}</p>
           </div>
         )}
         {interests && (
