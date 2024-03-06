@@ -69,13 +69,15 @@ const Profile = ({
               <div className="flex items-center gap-1">
                 {[
                   !!pronouns && (
-                    <small className="text-xs text-zinc-500">{pronouns}</small>
+                    <small className="whitespace-nowrap text-xs text-zinc-500">
+                      {pronouns}
+                    </small>
                   ),
                   !!pronouns && !!stint && (
                     <span className="text-zinc-400">{' · '}</span>
                   ),
                   !!stint && (
-                    <small className="text-xs text-zinc-500">
+                    <small className="whitespace-nowrap text-xs text-zinc-500">
                       {stint.batch?.name || stint.title}
                     </small>
                   ),
@@ -83,7 +85,7 @@ const Profile = ({
                     <span className="text-zinc-400">{' · '}</span>
                   ),
                   !!current_location && (
-                    <span className="inline-flex items-center gap-1">
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap">
                       <GlobeIcon className="h-3 w-3 text-zinc-400" />
                       <small className="text-xs leading-none text-zinc-500">
                         {current_location?.name}

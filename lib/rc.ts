@@ -27,3 +27,9 @@ export async function fetchHubVisits(params: Record<string, any> = {}) {
 
   return data;
 }
+
+export async function fetchBatches(params: Record<string, any> = {}) {
+  const {data} = await rc.get('/batches', {params});
+
+  return data;
+}
