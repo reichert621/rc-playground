@@ -6,8 +6,8 @@ class Calculator {
     /**
      * Adds two numbers together.
      */
-    add(a: number, b: number): number {
-        return a + b;
+    add(numbers: number[]): number {
+        return numbers.reduce((a, b) => a + b, 0);
     }
 
     subtract(a: number, b: number): number {
