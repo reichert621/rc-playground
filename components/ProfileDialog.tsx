@@ -164,7 +164,7 @@ const Profile = ({
         {!!beforeRc && (
           <div>
             <Label className="">Before RC</Label>
-            <p className="text-sm text-zinc-700">{beforeRc}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">{beforeRc}</p>
           </div>
         )}
         {!!duringRc && (
