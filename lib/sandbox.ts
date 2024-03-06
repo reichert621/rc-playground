@@ -82,8 +82,14 @@ class TicTacToe {
                 row = Number(prompt(`Player ${player}, enter your move row (0, 1, or 2):`));
                 col = Number(prompt(`Player ${player}, enter your move column (0, 1, or 2):`));
             } else {
-                [row, col] = this.getRandomValidMove();
-                console.log(`Computer chose row ${row} and column ${col}`);
+                let winningMove = this.getWinningMove(player);
+                if (winningMove) {
+                    [row, col] = winningMove;
+                    console.log(`Computer found a winning move at row ${row} and column ${col}`);
+                } else {
+                    [row, col] = this.getRandomValidMove();
+                    console.log(`Computer chose row ${row} and column ${col}`);
+                }
             }
             this.makeMove(row, col, player);
             if (this.checkWin(player)) {
