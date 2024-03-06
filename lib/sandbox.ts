@@ -47,10 +47,8 @@ class TicTacToe {
         let player = 'X';
         while (true) {
             this.printBoard();
-            // TODO: Get player input for row and column
-            // This is a placeholder for the actual input handling
-            let row = Math.floor(Math.random() * 3);
-            let col = Math.floor(Math.random() * 3);
+            let row = prompt(`Player ${player}, enter your move row (0, 1, or 2):`);
+            let col = prompt(`Player ${player}, enter your move column (0, 1, or 2):`);
             this.makeMove(row, col, player);
             if (this.checkWin(player)) {
                 console.log(`Player ${player} wins!`);
