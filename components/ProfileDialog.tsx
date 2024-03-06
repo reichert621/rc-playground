@@ -61,7 +61,7 @@ const Profile = ({
         </div>
         <div className="flex-1 space-y-3">
           <div>
-            <h1 className="text-2xl font-bold leading-none text-zinc-900">
+            <h1 className="text-2xl font-bold leading-none text-zinc-900 dark:text-zinc-100">
               {name || 'Anonymous'}
             </h1>
 
