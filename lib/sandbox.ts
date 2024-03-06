@@ -44,12 +44,31 @@ class TicTacToe {
         this.board[row][col] = player;
     }
 
+    getRandomValidMove(): [number, number] {
+        let validMoves: [number, number][] = [];
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+                if (this.board[row][col] === ' ') {
+                    validMoves.push([row, col]);
+                }
+            }
+        }
+        return validMoves[Math.floor(Math.random() * validMoves.length)];
+    }
+
     playGame() {
         let player = 'X';
         while (true) {
             this.printBoard();
-            let row = Number(prompt(`Player ${player}, enter your move row (0, 1, or 2):`));
-            let col = Number(prompt(`Player ${player}, enter your move column (0, 1, or 2):`));
+            let row: number;
+            let col: number;
+            if (player === 'X') {
+                row = Number(prompt(`Player ${player}, enter your move row (0, 1, or 2):`));
+                col = Number(prompt(`Player ${player}, enter your move column (0, 1, or 2):`));
+            } else {
+                [row, col] = this.getRandomValidMove();
+                console.log(`Computer chose row ${row} and column ${col}`);
+            }
             this.makeMove(row, col, player);
             if (this.checkWin(player)) {
                 console.log(`Player ${player} wins!`);
