@@ -100,7 +100,7 @@ const Profile = ({
               target="_blank"
             >
               <MailIcon className="h-4 w-4 text-zinc-500 group-hover:text-zinc-700" />
-              <div className="text-sm leading-none text-zinc-700 group-hover:text-zinc-900">
+              <div className="text-sm leading-none text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">
                 {email}
               </div>
             </a>
