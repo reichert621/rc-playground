@@ -107,14 +107,14 @@ export function useHubVisitors(options: SWRConfiguration = {}) {
   return {data, error, isLoading, isValidating, mutate};
 }
 
-export async function fetchCurrentBatchProfiles(): Promise<HubVisitor[]> {
+export async function fetchCurrentBatchProfiles(): Promise<RcPerson[]> {
   const {data} = await axios.get('/api/profiles');
 
   return data.profiles || [];
 }
 
 export function useCurrentBatchProfiles(options: SWRConfiguration = {}) {
-  const {data, error, isLoading, isValidating, mutate} = useSWR<HubVisitor[]>(
+  const {data, error, isLoading, isValidating, mutate} = useSWR<RcPerson[]>(
     ['/api/profiles'],
     () => fetchCurrentBatchProfiles(),
     options
