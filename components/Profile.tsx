@@ -1,7 +1,8 @@
-
 import React from 'react';
 import {GlobeIcon, MailIcon} from 'lucide-react';
+
 import {RcPerson} from '@/lib/api';
+import {Label} from '@/components/ui/label';
 import {
   GithubIcon,
   LinkedInIcon,
