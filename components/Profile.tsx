@@ -56,32 +56,30 @@ const Profile = ({
             </h1>
 
             <div className="flex items-center gap-1">
-              {[
-                !!pronouns && (
-                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">
-                    {pronouns}
+              {!!pronouns && (
+                <small className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {pronouns}
+                </small>
+              )}
+              {!!pronouns && !!stint && (
+                <span className="text-zinc-400">{' · '}</span>
+              )}
+              {!!stint && (
+                <small className="text-xs text-zinc-500 dark:text-zinc-400">
+                  {stint.batch?.name || stint.title}
+                </small>
+              )}
+              {(!!pronouns || !!stint) && !!current_location && (
+                <span className="text-zinc-400">{' · '}</span>
+              )}
+              {!!current_location && (
+                <span className="inline-flex items-center gap-1 ">
+                  <GlobeIcon className="h-3 w-3 text-zinc-400" />
+                  <small className="text-xs leading-none text-zinc-500">
+                    {current_location?.name}
                   </small>
-                ),
-                !!pronouns && !!stint && (
-                  <span className="text-zinc-400">{' · '}</span>
-                ),
-                !!stint && (
-                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">
-                    {stint.batch?.name || stint.title}
-                  </small>
-                ),
-                (!!pronouns || !!stint) && !!current_location && (
-                  <span className="text-zinc-400">{' · '}</span>
-                ),
-                !!current_location && (
-                  <span className="inline-flex items-center gap-1 ">
-                    <GlobeIcon className="h-3 w-3 text-zinc-400" />
-                    <small className="text-xs leading-none text-zinc-500">
-                      {current_location?.name}
-                    </small>
-                  </span>
-                ),
-              ]}
+                </span>
+              )}
             </div>
           </div>
 
