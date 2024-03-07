@@ -102,6 +102,12 @@ export default class RcApiClient {
     return data;
   }
 
+  async fetchBatches(params: Record<string, any> = {}) {
+    const {data} = await this.http.get('/batches', {params});
+
+    return data;
+  }
+
   async fetchHubVisits(params: Record<string, any> = {}) {
     const {data} = await this.http.get('/hub_visits', {
       params,
