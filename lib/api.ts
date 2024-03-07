@@ -122,3 +122,19 @@ export function useCurrentBatchProfiles(options: SWRConfiguration = {}) {
 
   return {data, error, isLoading, isValidating, mutate};
 }
+
+export async function fetchProfile(id: number): Promise<RcPerson> {
+  const {data} = await axios.get(`/api/profiles/${id}`);
+
+  return data.profile || null;
+}
+
+export function useProfile(id: number, options: SWRConfiguration = {}) {
+  const {data, error, isLoading, isValidating, mutate} = useSWR<RcPerson>(
+    [`/api/profiles/${id}`],
+    () => fetchProfile(id),
+    options
+  );
+
+  return {data, error, isLoading, isValidating, mutate};
+}
