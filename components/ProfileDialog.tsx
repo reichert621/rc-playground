@@ -68,7 +68,9 @@ const Profile = ({
             <div className="flex items-center gap-1">
               {[
                 !!pronouns && (
-                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">{pronouns}</small>
+                  <small className=" text-xs text-zinc-500 dark:text-zinc-400">
+                    {pronouns}
+                  </small>
                 ),
                 !!pronouns && !!stint && (
                   <span className="text-zinc-400">{' · '}</span>
@@ -100,7 +102,7 @@ const Profile = ({
               target="_blank"
             >
               <MailIcon className="h-4 w-4 text-zinc-500 group-hover:text-zinc-700" />
-              <div className="text-sm leading-none text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-zinc-200">
+              <div className="text-sm leading-none text-zinc-700 group-hover:text-zinc-900 dark:text-zinc-300 dark:group-hover:text-zinc-200">
                 {email}
               </div>
             </a>
@@ -164,19 +166,25 @@ const Profile = ({
         {!!beforeRc && (
           <div>
             <Label className="">Before RC</Label>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300">{beforeRc}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">
+              {beforeRc}
+            </p>
           </div>
         )}
         {!!duringRc && (
           <div>
             <Label className="">What I&apos;d like to work on</Label>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300">{duringRc}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">
+              {duringRc}
+            </p>
           </div>
         )}
         {interests && (
           <div>
             <Label className="">Interests</Label>
-            <p className="text-sm text-zinc-700 dark:text-zinc-300">{interests}</p>
+            <p className="text-sm text-zinc-700 dark:text-zinc-300">
+              {interests}
+            </p>
           </div>
         )}
       </div>
