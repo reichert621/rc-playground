@@ -3,10 +3,10 @@ import React from 'react';
 
 import {cn} from '@/lib/utils';
 import {signIn, signOut, useSession} from 'next-auth/react';
+import {Button} from '@/components/ui/button';
 
 const IndexPage: NextPage = () => {
   const {data: session} = useSession();
-  const notLoggedIn = session === null;
 
   return (
     <div
@@ -24,26 +24,21 @@ const IndexPage: NextPage = () => {
             <span className="mx-1">🚀</span>
           </p>
           <br />
-          {notLoggedIn && (
-            <button
-              className="ring-offset-background focus-visible:ring-ring inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-              onClick={() => signIn()}
-            >
-              Authenticate with Recurse
-            </button>
-          )}
-          {session && (
-            <div className="flex flex-col items-center">
-              <p>
-                Access Token <strong>{session?.user.token}</strong>
-              </p>
-              <button
-                className="ring-offset-background focus-visible:ring-ring inline-flex h-10 items-center justify-center whitespace-nowrap rounded-md bg-blue-500 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-blue-600 focus:outline-none focus:ring-1 focus:ring-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-                onClick={() => signOut()}
-              >
+
+          {session ? (
+            <div className="flex flex-col items-center gap-4">
+              <pre className="max-w-2xl overflow-auto whitespace-pre rounded bg-zinc-900 p-3 text-left text-sm text-zinc-100">
+                <code>{JSON.stringify(session.user, null, 2)}</code>
+              </pre>
+
+              <Button size="lg" variant="outline" onClick={() => signOut()}>
                 Sign Out
-              </button>
+              </Button>
             </div>
+          ) : (
+            <Button size="lg" onClick={() => signIn()}>
+              Authenticate with Recurse
+            </Button>
           )}
         </div>
       </main>
