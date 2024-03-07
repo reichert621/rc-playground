@@ -2,6 +2,7 @@ import '@/styles/globals.css';
 import type {AppProps} from 'next/app';
 import Head from 'next/head';
 import {Inter, Fira_Code} from 'next/font/google';
+import {SessionProvider} from 'next-auth/react';
 
 const sans = Inter({
   variable: '--font-sans',
@@ -15,7 +16,10 @@ const mono = Fira_Code({
   subsets: ['latin'],
 });
 
-export default function App({Component, pageProps}: AppProps) {
+export default function App({
+  Component,
+  pageProps: {session, ...pageProps},
+}: AppProps) {
   return (
     <>
       <Head>
@@ -29,7 +33,9 @@ export default function App({Component, pageProps}: AppProps) {
           }
         `}
       </style>
-      <Component {...pageProps} />
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
     </>
   );
 }
