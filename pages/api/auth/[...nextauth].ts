@@ -1,11 +1,14 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import NextAuth, {AuthOptions} from 'next-auth';
 
-const options: AuthOptions = {
+import RcApiClient from '@/lib/rc';
+
+export const options: AuthOptions = {
+  secret: process.env.AUTH_SECRET,
   providers: [
     {
-      clientId: process.env.OAUTH_CLIENT_ID,
-      clientSecret: process.env.OAUTH_CLIENT_SECRET,
+      clientId: process.env.RC_OAUTH_CLIENT_ID,
+      clientSecret: process.env.RC_OAUTH_CLIENT_SECRET,
       id: 'recurse',
       name: 'Recurse',
       type: 'oauth',
@@ -19,24 +22,21 @@ const options: AuthOptions = {
       userinfo: {
         url: 'https://www.recurse.com/api/v1/profiles/me',
         async request(context) {
-          const opts = {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${context.tokens.access_token}`,
-            },
-          };
-          let resp = await fetch(
-            `https://www.recurse.com/api/v1/profiles/me`,
-            opts
-          );
-          let profile_info = await resp.json();
-          console.log(profile_info);
+          const token = context.tokens.access_token;
+
+          if (!token) {
+            return {};
+          }
+
+          const client = new RcApiClient(token);
+          const profile = await client.fetchCurrentUser();
+          console.log('Found profile!', profile);
+
           return {
-            id: profile_info.id,
-            name: profile_info.name,
-            email: profile_info.email,
-            image: profile_info.image_path,
+            id: profile.id,
+            name: profile.name,
+            email: profile.email,
+            image: profile.image_path,
           };
         },
       },
@@ -60,5 +60,6 @@ const options: AuthOptions = {
     },
   },
 };
+
 export default (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options);
