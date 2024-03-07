@@ -25,9 +25,6 @@ class Calculator {
         return a / b;
     }
 
-    areaOfCircle(radius: number): number {
-        return Math.PI * radius * radius;
-    }
 
     areaOfRectangle(length: number, width: number): number {
         return length * width;
