@@ -1,11 +1,22 @@
 import {NextPage} from 'next';
 import React from 'react';
+import {useRouter} from 'next/router';
+import {useSession} from 'next-auth/react';
 
 import {cn} from '@/lib/utils';
 import {RcPerson, useCurrentBatchProfiles} from '@/lib/api';
 import {ProfileDialog} from '@/components/ProfileDialog';
 
 const CurrentBatchPage: NextPage = () => {
+  const router = useRouter();
+  const {data: session, status} = useSession();
+
+  React.useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/');
+    }
+  }, [status]);
+
   const [selected, setSelectedProfile] = React.useState<RcPerson | null>(null);
   const [isViewingProfile, setViewingState] = React.useState(false);
   const {
