@@ -27,9 +27,6 @@ class Calculator {
 
 
 
-    areaOfTriangle(base: number, height: number): number {
-        return 0.5 * base * height;
-    }
 
     exponent(base: number, exponent: number): number {
         return Math.pow(base, exponent);
