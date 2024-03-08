@@ -14,8 +14,8 @@ class Calculator {
         return a - b;
     }
 
-    multiply(a: number, b: number): number {
-        return a * b;
+    multiply(numbers: number[]): number {
+        return numbers.reduce((a, b) => a * b, 1);
     }
 
     divide(a: number, b: number): number {
