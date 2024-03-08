@@ -29,7 +29,11 @@ class Calculator {
 
 
     exponent(base: number, exponent: number): number {
-        return Math.pow(base, exponent);
+        let result = 1;
+        for(let i = 0; i < exponent; i++) {
+            result *= base;
+        }
+        return result;
     }
 
     squareRoot(number: number): number {
