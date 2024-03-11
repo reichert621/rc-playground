@@ -1,8 +1,8 @@
 import {NextPage} from 'next';
 import React from 'react';
+import {signIn, signOut, useSession} from 'next-auth/react';
 
 import {cn} from '@/lib/utils';
-import {signIn, signOut, useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 import db from '@/lib/instant';
 

@@ -1,12 +1,11 @@
 import {NextPage} from 'next';
 import React from 'react';
 import {useRouter} from 'next/router';
-import {useSession} from 'next-auth/react';
+import {id, tx} from '@instantdb/react';
 import dayjs from 'dayjs';
 
 import {cn} from '@/lib/utils';
 import db, {seed, reset} from '@/lib/instant';
-import {id, tx} from '@instantdb/react';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {useCombinedAuth} from '@/lib/hooks';
