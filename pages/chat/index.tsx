@@ -104,9 +104,6 @@ function ChatMessages({
                       {author.name}
                     </div>
                   )}
-                  {/* <div className="text-sm font-normal leading-relaxed text-zinc-600">
-                    {message.body}
-                  </div> */}
                   <Markdown>{message.body}</Markdown>
                 </div>
 
