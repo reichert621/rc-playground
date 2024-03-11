@@ -4,9 +4,16 @@ import React from 'react';
 import {cn} from '@/lib/utils';
 import {signIn, signOut, useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
+import db from '@/lib/instant';
 
 const IndexPage: NextPage = () => {
   const {data: session} = useSession();
+  const {user} = db.useAuth();
+
+  const handleSignOut = async () => {
+    db.auth.signOut();
+    await signOut();
+  };
 
   return (
     <div
@@ -16,7 +23,10 @@ const IndexPage: NextPage = () => {
     >
       <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center bg-white px-8 py-12 dark:bg-zinc-900">
         <div className="mb-24 text-center">
-          <h1 className="bg-gradient-to-br from-zinc-950 to-zinc-500 bg-clip-text text-5xl font-bold leading-normal text-transparent">
+          <h1
+            className="bg-gradient-to-br from-zinc-950 to-zinc-500 bg-clip-text text-5xl font-bold leading-normal text-transparent"
+            onClick={() => db.auth.signOut()}
+          >
             RC Playground
           </h1>
           <p className="mt-2 text-lg text-zinc-600">
@@ -31,7 +41,11 @@ const IndexPage: NextPage = () => {
                 <code>{JSON.stringify(session.user, null, 2)}</code>
               </pre>
 
-              <Button size="lg" variant="outline" onClick={() => signOut()}>
+              <Button
+                size="lg"
+                variant="outline"
+                onClick={() => handleSignOut()}
+              >
                 Sign Out
               </Button>
             </div>

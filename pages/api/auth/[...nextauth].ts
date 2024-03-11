@@ -1,7 +1,16 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import NextAuth, {AuthOptions} from 'next-auth';
+import {init} from '@instantdb/admin';
 
 import RcApiClient from '@/lib/rc';
+
+const APP_ID = process.env.NEXT_PUBLIC_INSTANT_APP_ID!;
+const ADMIN_API_KEY = process.env.INSTANT_ADMIN_API_KEY!;
+
+const db = init({
+  appId: APP_ID,
+  adminToken: ADMIN_API_KEY,
+});
 
 export const options: AuthOptions = {
   secret: process.env.AUTH_SECRET,
@@ -46,16 +55,20 @@ export const options: AuthOptions = {
     },
   ],
   callbacks: {
-    async jwt({token, account}) {
+    async jwt({token, account, user}) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token;
+        const instantToken = await db.auth.createToken(user.email!);
+        token.instantToken = instantToken;
       }
       return token;
     },
     async session({session, token, user}) {
       // Send properties to the client, like an access_token from a provider.
       session.user.token = token.accessToken as string;
+      session.user.instantToken = token.instantToken as string;
+
       return session;
     },
   },

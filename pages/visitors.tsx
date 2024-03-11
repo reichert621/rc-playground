@@ -63,7 +63,7 @@ const IndexPage: NextPage = () => {
                     className="aspect-square w-full opacity-90 transition-opacity group-hover:opacity-100"
                     src={person.image_path}
                   />
-                  <div className="w-full bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-800">
+                  <div className="w-full truncate bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-800">
                     {person.name}
                   </div>
                 </button>
