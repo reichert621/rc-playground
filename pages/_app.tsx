@@ -4,6 +4,8 @@ import Head from 'next/head';
 import {Inter, Fira_Code} from 'next/font/google';
 import {SessionProvider} from 'next-auth/react';
 
+import db from '@/lib/instant';
+
 const sans = Inter({
   variable: '--font-sans',
   display: 'swap',
