@@ -7,14 +7,29 @@ import {cn} from '@/lib/utils';
 import {Button} from '@/components/ui/button';
 import db from '@/lib/instant';
 import {useCombinedAuth} from '@/lib/hooks';
+import Spinner from '@/components/Spinner';
 
 const IndexPage: NextPage = () => {
-  const {session, user} = useCombinedAuth();
+  const {session, user, isLoading} = useCombinedAuth();
 
   const handleSignOut = async () => {
     db.auth.signOut();
     await signOut();
   };
+
+  if (isLoading) {
+    return (
+      <div
+        className={cn(
+          'flex min-h-screen w-full flex-1 flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100'
+        )}
+      >
+        <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center bg-white px-4 py-12 dark:bg-zinc-900">
+          <Spinner className="h-8 w-8 text-zinc-500" />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -23,7 +38,7 @@ const IndexPage: NextPage = () => {
       )}
     >
       <header className="mx-auto w-full max-w-4xl bg-white px-4 py-3 dark:bg-zinc-900">
-        {user?.email ? (
+        {user ? (
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-3">
               <img
