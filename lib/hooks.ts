@@ -29,8 +29,8 @@ export function useCombinedAuth() {
     }
   }, [instantUser, session]);
 
-  const sessionUser = session?.user || {};
-  const user = {...instantUser, ...sessionUser};
+  const isAuthenticated = status === 'authenticated';
+  const user = isAuthenticated ? {...instantUser, ...session?.user} : null;
 
   return {
     session,
