@@ -1,6 +1,8 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import NextAuth, {AuthOptions} from 'next-auth';
 import {init} from '@instantdb/admin';
+import memoize from 'memoize';
+import axios from 'axios';
 
 import RcApiClient from '@/lib/rc';
 
@@ -10,6 +12,39 @@ const ADMIN_API_KEY = process.env.INSTANT_ADMIN_API_KEY!;
 const db = init({
   appId: APP_ID,
   adminToken: ADMIN_API_KEY,
+});
+
+function isTokenExpired(token: Record<string, any>) {
+  if (!token) {
+    return false;
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  const expiry = Number(token.expiresAt);
+  const forceExpire = expiry == 1710269450;
+  const isExpired = expiry < now || forceExpire;
+  console.debug({expiry, now, valid: expiry > now});
+
+  return isExpired;
+}
+
+// NB: we memoize to prevent an annoying race condition
+// (discussion: https://github.com/nextauthjs/next-auth/discussions/3940)
+const refreshAccessToken = memoize(async function (token: string) {
+  try {
+    const {data} = await axios.post('https://www.recurse.com/oauth/token', {
+      client_id: process.env.RC_OAUTH_CLIENT_ID,
+      client_secret: process.env.RC_OAUTH_CLIENT_SECRET,
+      grant_type: 'refresh_token',
+      refresh_token: token,
+    });
+
+    console.debug('[refreshAccessToken] result:', data);
+
+    return data;
+  } catch (error) {
+    console.error('[refreshAccessToken] error:', error);
+  }
 });
 
 export const options: AuthOptions = {
@@ -58,11 +93,37 @@ export const options: AuthOptions = {
     async jwt({token, account, user}) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
-        token.accessToken = account.access_token;
         const instantToken = await db.auth.createToken(user.email!);
-        token.instantToken = instantToken;
+
+        return {
+          ...token,
+          instantToken,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          expiresAt: account.expires_at,
+        };
       }
-      return token;
+
+      // If token has expired, try to refresh
+      if (isTokenExpired(token)) {
+        console.debug('Expired! Attempting refresh...');
+        const data = await refreshAccessToken(token.refreshToken as string);
+
+        if (data.error) {
+          console.error('Failed to refresh:', data);
+          return token;
+        } else {
+          console.debug('Refreshed tokens:', data);
+          return {
+            ...token,
+            accessToken: data.access_token,
+            refreshToken: data.refresh_token,
+            expiresAt: Math.floor(Date.now() / 1000) + data.expires_in,
+          };
+        }
+      } else {
+        return token;
+      }
     },
     async session({session, token, user}) {
       // Send properties to the client, like an access_token from a provider.
