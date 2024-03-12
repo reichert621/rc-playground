@@ -1,9 +1,9 @@
 import {NextPage} from 'next';
 import React from 'react';
+import {useSession} from 'next-auth/react';
 
 import {cn} from '@/lib/utils';
 import db, {reset, seed} from '@/lib/instant';
-import {useSession} from 'next-auth/react';
 import {Button} from '@/components/ui/button';
 
 function Debugger({className, data}: {className?: string; data: any}) {

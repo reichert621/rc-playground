@@ -28,6 +28,16 @@ function ChatMessages({
     messages: {users: {}, $: {where: {channelId}}},
   });
   const count = data?.messages.length ?? 0;
+  const messages = (data?.messages || [])
+    .filter((m) => {
+      // TODO: figure out how to handle this better with Instant
+      return m.users.length > 0;
+    })
+    .map((message) => {
+      const [author] = message.users;
+
+      return {...message, author};
+    });
 
   React.useEffect(() => {
     if (scrollRef.current) {
@@ -50,7 +60,7 @@ function ChatMessages({
         userId: currentUser.id,
         channelId,
       })
-      .link({users: currentUser.id!});
+      .link({users: currentUser.id});
 
     db.transact(txn);
     setText('');
@@ -73,10 +83,10 @@ function ChatMessages({
         </FadeIn>
       ) : (
         <div className="max-h-screen overflow-auto pb-20 pt-8 duration-200 animate-in fade-in-0">
-          {data.messages.map((message: any, index: number) => {
-            const author = message.users[0];
-            const prev = data.messages[index - 1];
-            const isSameAuthor = !!prev && author.id === prev.users[0]?.id;
+          {messages.map((message: any, index: number) => {
+            const {author} = message;
+            const prev = messages[index - 1];
+            const isSameAuthor = !!prev && author.id === prev.author.id;
             const ts = dayjs(message.timestamp);
             const isToday = ts.isSame(dayjs(), 'day');
 
