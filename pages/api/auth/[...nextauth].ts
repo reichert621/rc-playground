@@ -23,7 +23,7 @@ function isTokenExpired(token: Record<string, any>) {
   const expiry = Number(token.expiresAt);
   const forceExpire = expiry == 1710269450;
   const isExpired = expiry < now || forceExpire;
-  console.debug({expiry, now, valid: expiry > now});
+  // console.debug({expiry, now, valid: expiry > now});
 
   return isExpired;
 }
