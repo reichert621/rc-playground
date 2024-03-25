@@ -4,7 +4,8 @@ import {useRouter} from 'next/router';
 import {useSession} from 'next-auth/react';
 
 import {cn} from '@/lib/utils';
-import {RcPerson, useHubVisitors} from '@/lib/api';
+import {RcPerson} from '@/lib/types/rc';
+import {useHubVisitors} from '@/lib/api';
 import {ProfileDialog} from '@/components/ProfileDialog';
 
 const IndexPage: NextPage = () => {

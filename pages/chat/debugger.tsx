@@ -5,18 +5,7 @@ import {useSession} from 'next-auth/react';
 import {cn} from '@/lib/utils';
 import db, {reset, seed} from '@/lib/instant';
 import {Button} from '@/components/ui/button';
-
-function Debugger({className, data}: {className?: string; data: any}) {
-  return (
-    <div
-      className={cn('rounded-md bg-black p-4 text-sm text-white', className)}
-    >
-      <pre>
-        <code className="font-mono">{JSON.stringify(data, null, 2)}</code>
-      </pre>
-    </div>
-  );
-}
+import {Debugger} from '@/components/Debugger';
 
 const DebuggerPage: NextPage = () => {
   const {data: session, status} = useSession();

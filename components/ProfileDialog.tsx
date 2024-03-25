@@ -3,7 +3,7 @@ import {XIcon} from 'lucide-react';
 
 import {Button} from '@/components/ui/button';
 import {Dialog, DialogClose, DialogContent} from '@/components/ui/dialog';
-import {RcPerson} from '@/lib/api';
+import {RcPerson} from '@/lib/types/rc';
 import Profile from '@/components/Profile';
 
 export const ProfileDialog = ({
