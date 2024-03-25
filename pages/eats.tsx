@@ -20,11 +20,11 @@ const BogoEatsPage: NextPage = () => {
         'flex min-h-screen w-full flex-1 flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100'
       )}
     >
-      <main className="mx-auto w-full max-w-4xl flex-1 bg-white px-8 py-12 dark:bg-zinc-900">
+      <main className="mx-auto w-full max-w-4xl flex-1 bg-white px-4 py-12 dark:bg-zinc-900 sm:px-8">
         <h1 className="bg-gradient-to-br from-zinc-950 to-zinc-500 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl sm:leading-snug md:text-6xl md:leading-snug">
           BOGO Deals
         </h1>
-        <p className="text-lg text-zinc-500">
+        <p className="text-base text-zinc-500 sm:text-lg">
           Uber<span className="font-semibold">Eats</span> BOGO deals near the
           hub!
         </p>
@@ -43,7 +43,7 @@ const BogoEatsPage: NextPage = () => {
                   <img className="w-full object-cover" src={mid || low} />
                 </div>
                 <div className="p-2">
-                  <h3 className="mb-2 truncate text-lg font-medium text-zinc-900">
+                  <h3 className="mb-2 truncate text-base font-medium text-zinc-900 sm:text-lg">
                     {name}
                   </h3>
                   <div className="mb-1 mt-2 space-y-1 border-t pt-2">
@@ -86,7 +86,7 @@ const BogoEatsPage: NextPage = () => {
                                 </svg>
                               </div>
                             )}
-                            <div className="font-normal text-zinc-700">
+                            <div className="text-sm font-normal text-zinc-700 sm:text-base">
                               {title}
                             </div>
                           </div>
