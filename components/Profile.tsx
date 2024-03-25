@@ -2,7 +2,7 @@ import React from 'react';
 import {GlobeIcon, MailIcon} from 'lucide-react';
 
 import {Label} from '@/components/ui/label';
-import {RcPerson} from '@/lib/api';
+import {RcPerson} from '@/lib/types/rc';
 import {
   GithubIcon,
   LinkedInIcon,
