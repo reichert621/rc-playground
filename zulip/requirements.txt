@@ -1,0 +1,14 @@
+beautifulsoup4==4.12.3
+certifi==2024.2.2
+charset-normalizer==3.3.2
+click==8.1.7
+distro==1.9.0
+html2text==2024.2.26
+idna==3.6
+lxml==5.1.0
+requests==2.31.0
+soupsieve==2.5
+typing_extensions==4.10.0
+urllib3==2.2.1
+zulip==0.9.0
+zulip-bots==0.9.0
