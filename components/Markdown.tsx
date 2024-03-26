@@ -3,7 +3,13 @@ import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 import {Twemoji as Emoji} from 'react-emoji-render';
 
-const Markdown = ({children}: {children: string}) => {
+const Markdown = ({
+  children,
+  onImageLoaded,
+}: {
+  children: string;
+  onImageLoaded?: () => void;
+}) => {
   return (
     <ReactMarkdown
       remarkPlugins={[gfm]}
@@ -25,7 +31,6 @@ const Markdown = ({children}: {children: string}) => {
             </p>
           );
         },
-
         a: ({node, ...props}) => (
           <a
             className="underline transition-colors"
@@ -34,6 +39,13 @@ const Markdown = ({children}: {children: string}) => {
             {...props}
           />
         ),
+        img: ({node, ...props}) => {
+          return (
+            <span className="flex max-h-80 max-w-80 items-center justify-center overflow-hidden rounded bg-zinc-900">
+              <img className="object-fit" {...props} onLoad={onImageLoaded} />
+            </span>
+          );
+        },
         ul: ({node, ...props}) => (
           <ul
             // style={{paddingLeft: props.depth * 24}}
