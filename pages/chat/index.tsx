@@ -114,7 +114,11 @@ function ChatMessages({
                       {author.name}
                     </div>
                   )}
-                  <Markdown>{message.body}</Markdown>
+                  <Markdown
+                    onImageLoaded={() => scrollRef.current?.scrollIntoView({})}
+                  >
+                    {message.body}
+                  </Markdown>
                 </div>
 
                 <div className="w-16 pt-0.5 text-xs text-zinc-300">

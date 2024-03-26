@@ -38,3 +38,12 @@ next-env.d.ts
 
 /sandbox
 .vscode
+
+# python
+venv
+build
+dist
+venv
+
+# temporary
+zulip
