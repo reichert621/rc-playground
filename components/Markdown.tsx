@@ -46,6 +46,9 @@ const Markdown = ({
             </span>
           );
         },
+        pre: ({node, ...props}) => {
+          return <pre className="whitespace-break-spaces" {...props} />;
+        },
         ul: ({node, ...props}) => (
           <ul
             // style={{paddingLeft: props.depth * 24}}

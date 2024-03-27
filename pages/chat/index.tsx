@@ -69,14 +69,14 @@ function ChatMessages({
   return (
     <div className={cn('relative flex flex-1 flex-col justify-end', className)}>
       {error ? (
-        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-4 px-8 py-8">
+        <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-4 px-4 py-8 sm:px-8">
           <div className="text-red-500">
             Error loading messages: {error.message}
           </div>
         </div>
       ) : isLoading || !data ? (
         <FadeIn direction="none" delay={500}>
-          <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-4 px-8 py-8">
+          <div className="mx-auto flex w-full max-w-4xl flex-1 flex-col items-center justify-center gap-4 px-4 py-8 sm:px-8">
             <Spinner className="h-8 w-8 text-zinc-400" />
             <div className="text-sm text-zinc-300">Loading messages...</div>
           </div>
@@ -94,7 +94,7 @@ function ChatMessages({
               <div
                 key={message.id}
                 className={cn(
-                  'mx-auto flex w-full max-w-4xl gap-4 px-8',
+                  'mx-auto flex w-full max-w-4xl gap-4 px-0 sm:px-8',
                   isSameAuthor ? 'mt-2' : 'mt-4'
                 )}
               >
@@ -133,10 +133,10 @@ function ChatMessages({
       <div className="absolute bottom-0 w-full">
         <form
           key={channelId}
-          className="mx-auto flex w-full max-w-4xl items-center gap-4 bg-white bg-opacity-60 px-8 py-4 backdrop-blur"
+          className="mx-auto flex w-full max-w-4xl items-center gap-0 bg-white bg-opacity-60 px-4 py-4 backdrop-blur sm:gap-4 sm:px-8"
           onSubmit={handleSendMessage}
         >
-          <div className="flex-0 w-16" />
+          <div className="flex-0 hidden w-16 sm:flex" />
           <Input
             className="flex-1 bg-white"
             placeholder="Type a message..."
@@ -144,7 +144,7 @@ function ChatMessages({
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
-          <div className="flex-0 w-16" />
+          <div className="flex-0 hidden w-16 sm:flex" />
         </form>
       </div>
     </div>
@@ -200,7 +200,7 @@ const ChatPage: NextPage = () => {
       )}
     >
       <div className="flex flex-1">
-        <div className="flex w-64 max-w-64 flex-1 flex-col border-r border-zinc-100 bg-zinc-50/80 p-4">
+        <div className="hidden w-64 max-w-64 flex-1 flex-col border-r border-zinc-100 bg-zinc-50/80 p-4 sm:flex">
           <h2 className="mb-3 text-xs font-medium uppercase tracking-widest text-zinc-400">
             Channels
           </h2>
