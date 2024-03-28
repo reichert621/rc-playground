@@ -84,7 +84,7 @@ const IndexPage: NextPage = () => {
           <br />
 
           {session ? (
-            <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-2 gap-2">
+            <div className="mx-auto mt-8 grid w-full max-w-2xl grid-cols-1 gap-2 sm:grid-cols-2">
               <Link
                 className="rounded-md border p-4 shadow transition-shadow hover:shadow-md"
                 href="/visitors"
@@ -114,6 +114,17 @@ const IndexPage: NextPage = () => {
                 <h2 className="mt-1 text-lg font-bold text-zinc-900">Chat</h2>
                 <p className="mt-0.5 text-base text-zinc-500">
                   Chat with other RC&apos;ers!
+                </p>
+              </Link>
+              <Link
+                className="rounded-md border p-4 shadow transition-shadow hover:shadow-md"
+                href="/eats"
+              >
+                <h2 className="mt-1 text-lg font-bold text-zinc-900">
+                  BOGO deals
+                </h2>
+                <p className="mt-0.5 text-base text-zinc-500">
+                  UberEats deals near the hub!
                 </p>
               </Link>
               <a
