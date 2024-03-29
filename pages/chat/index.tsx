@@ -81,19 +81,6 @@ function ChatMessages({
             <div className="text-sm text-zinc-300">Loading messages...</div>
           </div>
         </FadeIn>
-function ChatMessages({
-  className,
-  channelId,
-  currentUser,
-}: {
-  className?: string;
-  channelId: string;
-  currentUser: any;
-}) {
-  ...
-  return (
-    <div className={cn('relative flex flex-1 flex-col justify-end', className)}>
-      ...
       ) : (
         <div className="max-h-screen overflow-auto pb-20 pt-8 duration-200 animate-in fade-in-0">
           {messages.map((message: any, index: number) => {
@@ -106,7 +93,10 @@ function ChatMessages({
             return (
               <div
                 key={message.id}
-                className={cn('mx-auto flex w-full max-w-4xl gap-4 px-0 sm:px-8', isSameAuthor ? 'mt-2' : 'mt-4', 'dark:text-zinc-300')}
+                className={cn(
+                  'mx-auto flex w-full max-w-4xl gap-4 px-0 sm:px-8',
+                  isSameAuthor ? 'mt-2' : 'mt-4'
+                )}
               >
                 <div className="flex-0 flex w-16 justify-end">
                   {!isSameAuthor && (
@@ -120,7 +110,6 @@ function ChatMessages({
 
                 <div className="flex-1">
                   {!isSameAuthor && (
-                    <div className="mb-1 text-sm font-medium text-zinc-900 dark:text-zinc-200">
                     <div className="mb-1 text-sm font-medium text-zinc-900">
                       {author.name}
                     </div>
@@ -133,7 +122,6 @@ function ChatMessages({
                 </div>
 
                 <div className="w-16 pt-0.5 text-xs text-zinc-300">
-                <div className="w-16 pt-0.5 text-xs text-zinc-300 dark:text-zinc-500">
                   {isToday ? ts.format('h:mm a') : ts.format('MMM D')}
                 </div>
               </div>
@@ -145,14 +133,12 @@ function ChatMessages({
       <div className="absolute bottom-0 w-full">
         <form
           key={channelId}
-          className="mx-auto flex w-full max-w-4xl items-center gap-0 bg-white bg-opacity-60 px-4 py-4 backdrop-blur sm:gap-4 sm:px-8 dark:bg-zinc-800 dark:bg-opacity-80"
           className="mx-auto flex w-full max-w-4xl items-center gap-0 bg-white bg-opacity-60 px-4 py-4 backdrop-blur sm:gap-4 sm:px-8"
           onSubmit={handleSendMessage}
         >
           <div className="flex-0 hidden w-16 sm:flex" />
           <Input
             className="flex-1 bg-white"
-            className="flex-1 bg-white dark:bg-zinc-700"
             placeholder="Type a message..."
             autoFocus
             value={text}
@@ -166,24 +152,6 @@ function ChatMessages({
 }
 
 const ChatPage: NextPage = () => {
-  ...
-  return (
-    <div
-      className={cn(
-        'flex min-h-screen w-full flex-1 flex-col bg-white text-zinc-900 dark:bg-zinc-800 dark:text-zinc-100'
-      )}
-    >
-      <div className="flex flex-1">
-        <div className="hidden w-64 max-w-64 flex-1 flex-col border-r border-zinc-100 bg-zinc-50/80 p-4 sm:flex dark:border-zinc-700 dark:bg-zinc-800">
-          ...
-        </div>
-        <main className="flex flex-1 flex-col bg-white dark:bg-zinc-800">
-          {selectedChannelId && (
-            <ChatMessages channelId={selectedChannelId} currentUser={user} />
-          )}
-        </main>
-        <div className="hidden flex-1 flex-col border-l border-zinc-100 bg-zinc-50/80 p-4 lg:flex lg:w-72 lg:max-w-72 dark:border-zinc-700 dark:bg-zinc-800">
-          ...
   const router = useRouter();
   const {isLoading, error, data} = db.useQuery({
     channels: {messages: {users: {}}},
