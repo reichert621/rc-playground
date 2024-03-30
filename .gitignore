@@ -46,4 +46,4 @@ dist
 venv
 
 # temporary
-zulip
+/zulip
