@@ -8,3 +8,12 @@ export function cn(...inputs: ClassValue[]) {
 export function times(n: number) {
   return Array.from({length: n}).map((_, i) => i);
 }
+export function debounce(func: Function, delay: number) {
+  let timeoutId: NodeJS.Timeout;
+  return function() {
+    const args = arguments;
+    const context = this;
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => func.apply(context, args), delay);
+  }
+}
