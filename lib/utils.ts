@@ -17,3 +17,7 @@ export function debounce(func: Function, delay: number) {
     timeoutId = setTimeout(() => func.apply(context, args), delay);
   }
 }
+
+export function sum(numbers: number[]) {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
