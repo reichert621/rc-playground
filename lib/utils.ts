@@ -21,3 +21,7 @@ export function debounce(func: Function, delay: number) {
 export function sum(numbers: number[]) {
   return numbers.reduce((acc, curr) => acc + curr, 0);
 }
+
+export function product(numbers: number[]) {
+  return numbers.reduce((acc, curr) => acc * curr, 1);
+}
