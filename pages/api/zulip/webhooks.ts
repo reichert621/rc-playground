@@ -76,15 +76,14 @@ export default async function handler(
 
               return [
                 `**${name}** (${pronouns})`,
-                `🔗 [Profile](https://www.recurse.com/directory/${slug})`,
-                current_location && `🌎 ${current_location.name}`,
-                github && `🔗 Github [${github}](https://github.com/${github})`,
-                twitter &&
-                  `🔗 Twitter [@${twitter}](https://twitter.com/${twitter}`,
-                linkedin && `🔗 LinkedIn ${linkedin}`,
-                before_rc_rendered && `🚀 ${before_rc_rendered}`,
-                during_rc_rendered && `🔬 ${during_rc_rendered}`,
-                interests_rendered && `🌱 ${interests_rendered}`,
+                current_location && `🌎 ${current_location.name}\n`,
+                `- **RC Directory Profile**: https://www.recurse.com/directory/${slug}`,
+                github && `- **Github**: https://github.com/${github}`,
+                twitter && `- **Twitter**: https://twitter.com/${twitter}`,
+                linkedin && `- **LinkedIn**: ${linkedin}`,
+                before_rc_rendered && `\n**Before RC**\n${before_rc_rendered}`,
+                during_rc_rendered && `\n**During RC**\n${during_rc_rendered}`,
+                interests_rendered && `\n**Interests**\n${interests_rendered}`,
               ]
                 .filter((str) => !!str)
                 .join('\n');
