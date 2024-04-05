@@ -9,6 +9,46 @@ const td = new Turndown();
 
 const RC_API_KEY = process.env.RC_API_KEY!;
 
+function formatUserProfileMessage(record: any, debug = false) {
+  const {email, user, profile} = record;
+
+  if (debug || !profile) {
+    return [
+      email,
+      '```json',
+      JSON.stringify(profile || user, null, 2),
+      '```',
+    ].join('\n');
+  }
+
+  const {
+    name,
+    pronouns,
+    slug,
+    github,
+    twitter,
+    linkedin,
+    before_rc_rendered,
+    during_rc_rendered,
+    interests_rendered,
+    current_location,
+  } = profile;
+
+  return [
+    `**${name}** (${pronouns})`,
+    current_location && `📍 ${current_location.name}\n\n`,
+    `- **RC Directory Profile**: https://www.recurse.com/directory/${slug}`,
+    github && `- **Github**: https://github.com/${github}`,
+    twitter && `- **Twitter**: https://twitter.com/${twitter}`,
+    linkedin && `- **LinkedIn**: ${linkedin}`,
+    before_rc_rendered && `\n**Before RC**\n${td.turndown(before_rc_rendered)}`,
+    during_rc_rendered && `\n**During RC**\n${td.turndown(during_rc_rendered)}`,
+    interests_rendered && `\n**Interests**\n${td.turndown(interests_rendered)}`,
+  ]
+    .filter((str) => !!str)
+    .join('\n');
+}
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
@@ -57,48 +97,7 @@ export default async function handler(
     content:
       users.length > 0
         ? users
-            .map((u) => {
-              const {email, user, profile} = u;
-
-              if (params.debug || !profile) {
-                return [
-                  email,
-                  '```json',
-                  JSON.stringify(profile || user, null, 2),
-                  '```',
-                ].join('\n');
-              }
-
-              const {
-                name,
-                pronouns,
-                slug,
-                github,
-                twitter,
-                linkedin,
-                before_rc_rendered,
-                during_rc_rendered,
-                interests_rendered,
-                current_location,
-              } = profile;
-
-              return [
-                `**${name}** (${pronouns})`,
-                current_location && `📍 ${current_location.name}\n\n`,
-                `- **RC Directory Profile**: https://www.recurse.com/directory/${slug}`,
-                github && `- **Github**: https://github.com/${github}`,
-                twitter && `- **Twitter**: https://twitter.com/${twitter}`,
-                linkedin && `- **LinkedIn**: ${linkedin}`,
-                before_rc_rendered &&
-                  `\n**Before RC**\n${td.turndown(before_rc_rendered)}`,
-                during_rc_rendered &&
-                  `\n**During RC**\n${td.turndown(during_rc_rendered)}`,
-                interests_rendered &&
-                  `\n**Interests**\n${td.turndown(interests_rendered)}`,
-              ]
-                .filter((str) => !!str)
-                .join('\n');
-            })
+            .map((u) => formatUserProfileMessage(u, params.debug))
             .join('\n\n---\n\n')
         : 'No users found.',
   });
