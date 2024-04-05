@@ -19,7 +19,7 @@ export default async function handler(
 ) {
   const params = {...req.body, ...req.query};
   console.log('Webhook payload:', params);
-
+  // TODO: is there a way to validate that this payload is coming from zulip?
   const {message = {}} = params;
   const messageContentHtml =
     message.rendered_content ||
@@ -49,7 +49,6 @@ export default async function handler(
       return {email, user, profile};
     })
   );
-  console.log(users);
 
   return res.status(200).json({
     users,
