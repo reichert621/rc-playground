@@ -30,9 +30,16 @@ export default async function handler(
   const users = await Promise.all(
     mentionedUserIds.map(async (id) => {
       const user = await fetchZulipUserById(id);
-      const profile = await fetchProfileById(user.email, RC_API_KEY!);
+      const email = user.delivery_email || user.email;
+      const profile = await fetchProfileById(email, RC_API_KEY!).catch(
+        (err) => {
+          console.error('RC profile not found:', err);
 
-      return {user, profile};
+          return null;
+        }
+      );
+
+      return {email, user, profile};
     })
   );
 
