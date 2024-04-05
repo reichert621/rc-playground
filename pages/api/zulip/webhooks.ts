@@ -42,6 +42,7 @@ export default async function handler(
       return {email, user, profile};
     })
   );
+  console.log(users);
 
   return res.status(200).json({
     users,
