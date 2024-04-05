@@ -9,20 +9,22 @@ const td = new Turndown();
 
 const RC_API_KEY = process.env.RC_API_KEY!;
 
-function htmlToMarkdown(html: string) {
-  return td.turndown(html);
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
   const params = {...req.body, ...req.query};
+  const isProduction = process.env.NODE_ENV === 'production';
+
+  if (isProduction && params.token !== process.env.ZULIP_BOT_TOKEN) {
+    return res.status(401).json({error: 'Unauthorized'});
+  }
+
   console.log('Webhook payload:', params);
-  // TODO: is there a way to validate that this payload is coming from zulip?
   const {message = {}} = params;
   const messageContentHtml =
     message.rendered_content ||
+    // Demo content for testing
     `
     <p>
       <span class="user-mention" data-user-id="690086">
