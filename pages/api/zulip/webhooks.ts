@@ -98,7 +98,7 @@ export default async function handler(
                 .filter((str) => !!str)
                 .join('\n');
             })
-            .join('\n\n')
+            .join('\n\n---\n\n')
         : 'No users found.',
   });
 }
