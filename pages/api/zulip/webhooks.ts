@@ -52,9 +52,12 @@ export default async function handler(
             .map((u) => {
               const {email, user, profile} = u;
 
-              return [email, JSON.stringify(profile || user, null, 2)].join(
-                '\n'
-              );
+              return [
+                email,
+                '```json',
+                JSON.stringify(profile || user, null, 2),
+                '```',
+              ].join('\n');
             })
             .join('\n\n')
         : 'No users found.',
