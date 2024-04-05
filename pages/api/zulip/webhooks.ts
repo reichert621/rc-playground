@@ -79,6 +79,11 @@ export default async function handler(
   const users = await Promise.all(
     mentionedUserIds.map(async (id) => {
       const user = await fetchZulipUserById(id);
+
+      if (user.is_bot) {
+        return null;
+      }
+
       const email = user.delivery_email || user.email;
       const profile = await fetchProfileById(email, RC_API_KEY!).catch(
         (err) => {
@@ -97,6 +102,7 @@ export default async function handler(
     content:
       users.length > 0
         ? users
+            .filter((u) => !!u)
             .map((u) => formatUserProfileMessage(u, params.debug))
             .join('\n\n---\n\n')
         : 'No users found.',
