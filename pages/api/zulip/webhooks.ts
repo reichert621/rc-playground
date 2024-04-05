@@ -52,12 +52,42 @@ export default async function handler(
             .map((u) => {
               const {email, user, profile} = u;
 
+              if (params.debug || !profile) {
+                return [
+                  email,
+                  '```json',
+                  JSON.stringify(profile || user, null, 2),
+                  '```',
+                ].join('\n');
+              }
+
+              const {
+                name,
+                pronouns,
+                slug,
+                github,
+                twitter,
+                linkedin,
+                before_rc_rendered,
+                during_rc_rendered,
+                interests_rendered,
+                current_location,
+              } = profile;
+
               return [
-                email,
-                '```json',
-                JSON.stringify(profile || user, null, 2),
-                '```',
-              ].join('\n');
+                `**${name}** (${pronouns})`,
+                `🔗 [Profile](https://www.recurse.com/directory/${slug})`,
+                current_location && `🌎 ${current_location.name}`,
+                github && `🔗 Github [${github}](https://github.com/${github})`,
+                twitter &&
+                  `🔗 Twitter [@${twitter}](https://twitter.com/${twitter}`,
+                linkedin && `🔗 LinkedIn ${linkedin}`,
+                before_rc_rendered && `🚀 ${before_rc_rendered}`,
+                during_rc_rendered && `🔬 ${during_rc_rendered}`,
+                interests_rendered && `🌱 ${interests_rendered}`,
+              ]
+                .filter((str) => !!str)
+                .join('\n');
             })
             .join('\n\n')
         : 'No users found.',
