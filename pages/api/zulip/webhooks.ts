@@ -46,6 +46,17 @@ export default async function handler(
 
   return res.status(200).json({
     users,
-    content: `Found the following user(s): ${users.map((u) => u.user.email).join(', ')}`,
+    content:
+      users.length > 0
+        ? users
+            .map((u) => {
+              const {email, user, profile} = u;
+
+              return [email, JSON.stringify(profile || user, null, 2)].join(
+                '\n'
+              );
+            })
+            .join('\n\n')
+        : 'No users found.',
   });
 }
