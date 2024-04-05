@@ -1,10 +1,17 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 import {load} from 'cheerio';
+import Turndown from 'turndown';
 
 import {fetchProfileById} from '@/lib/rc';
 import {fetchZulipUserById} from '@/lib/zulip';
 
+const td = new Turndown();
+
 const RC_API_KEY = process.env.RC_API_KEY!;
+
+function htmlToMarkdown(html: string) {
+  return td.turndown(html);
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -76,14 +83,17 @@ export default async function handler(
 
               return [
                 `**${name}** (${pronouns})`,
-                current_location && `🌎 ${current_location.name}\n`,
+                current_location && `📍 ${current_location.name}\n\n`,
                 `- **RC Directory Profile**: https://www.recurse.com/directory/${slug}`,
                 github && `- **Github**: https://github.com/${github}`,
                 twitter && `- **Twitter**: https://twitter.com/${twitter}`,
                 linkedin && `- **LinkedIn**: ${linkedin}`,
-                before_rc_rendered && `\n**Before RC**\n${before_rc_rendered}`,
-                during_rc_rendered && `\n**During RC**\n${during_rc_rendered}`,
-                interests_rendered && `\n**Interests**\n${interests_rendered}`,
+                before_rc_rendered &&
+                  `\n**Before RC**\n${td.turndown(before_rc_rendered)}`,
+                during_rc_rendered &&
+                  `\n**During RC**\n${td.turndown(during_rc_rendered)}`,
+                interests_rendered &&
+                  `\n**Interests**\n${td.turndown(interests_rendered)}`,
               ]
                 .filter((str) => !!str)
                 .join('\n');
