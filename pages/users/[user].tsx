@@ -294,7 +294,7 @@ function RcSpace({
           <div className="rounded-md border bg-white p-4">
             <div className="mb-2 border-b-2 pb-2">
               <h2 className="text-base font-bold leading-none text-zinc-900">
-                Feed
+                Public Feed
               </h2>
             </div>
             {isLoading ? (
