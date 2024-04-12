@@ -9,6 +9,7 @@ declare module 'next-auth' {
       /** Oauth access token */
       token?: string;
       instantToken?: string;
+      rcId?: number;
     } & DefaultSession['user'];
   }
 }

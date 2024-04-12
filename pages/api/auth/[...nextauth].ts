@@ -81,6 +81,7 @@ export const options: AuthOptions = {
             name: profile.name,
             email: profile.email,
             image: profile.image_path,
+            rcId: profile.id,
           };
         },
       },
@@ -129,6 +130,7 @@ export const options: AuthOptions = {
       // Send properties to the client, like an access_token from a provider.
       session.user.token = token.accessToken as string;
       session.user.instantToken = token.instantToken as string;
+      session.user.rcId = Number(token.sub);
 
       return session;
     },

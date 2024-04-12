@@ -22,7 +22,13 @@ import {
 import {Label} from '@/components/ui/label';
 import {ArrowLeftIcon} from 'lucide-react';
 
-type RcInstantUser = {id: string; email: string; name: string; image: string};
+type RcInstantUser = {
+  id: string;
+  email: string;
+  name: string;
+  image: string;
+  rcId: number;
+};
 type RcSpacePost = {
   id: string;
   content: string;
@@ -65,9 +71,18 @@ function PostsFeed({posts}: {posts: RcSpacePost[]}) {
               </div>
 
               <div className="flex-1">
-                <div className="mb-1 text-sm font-medium text-zinc-900">
-                  {author?.name}
-                </div>
+                {author?.rcId ? (
+                  <Link
+                    className="mb-1 text-sm font-medium text-zinc-900"
+                    href={`/users/${author.rcId}`}
+                  >
+                    {author?.name}
+                  </Link>
+                ) : (
+                  <div className="mb-1 text-sm font-medium text-zinc-900">
+                    {author?.name}
+                  </div>
+                )}
                 <Markdown>{content}</Markdown>
               </div>
 
