@@ -20,7 +20,7 @@ const Markdown = ({
         p: ({node, children, ...props}) => {
           return (
             <p
-              className="mt-2 text-sm leading-relaxed text-zinc-600 first:mt-0"
+              className="mb-2 text-sm leading-relaxed text-zinc-600 last:mb-0"
               {...props}
             >
               {typeof children === 'string' ? (

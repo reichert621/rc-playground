@@ -2,11 +2,11 @@ import {NextPage} from 'next';
 import React from 'react';
 import {useRouter} from 'next/router';
 import {useSession} from 'next-auth/react';
+import Link from 'next/link';
 
 import {cn} from '@/lib/utils';
 import {RcPerson} from '@/lib/types/rc';
 import {useCurrentBatchProfiles} from '@/lib/api';
-import {ProfileDialog} from '@/components/ProfileDialog';
 
 const CurrentBatchPage: NextPage = () => {
   const router = useRouter();
@@ -18,8 +18,6 @@ const CurrentBatchPage: NextPage = () => {
     }
   }, [status]);
 
-  const [selected, setSelectedProfile] = React.useState<RcPerson | null>(null);
-  const [isViewingProfile, setViewingState] = React.useState(false);
   const {
     data: profiles = [],
     isLoading,
@@ -28,11 +26,6 @@ const CurrentBatchPage: NextPage = () => {
     // poll every 60s
     refreshInterval: 60000,
   });
-
-  const handleSelectProfile = (person: RcPerson) => {
-    setSelectedProfile(person);
-    setViewingState(true);
-  };
 
   return (
     <div
@@ -49,27 +42,22 @@ const CurrentBatchPage: NextPage = () => {
         <div className="my-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
           {profiles.map((person) => {
             return (
-              <button
+              <Link
                 key={person.id}
+                href={`/users/${person.id}`}
                 className="group overflow-hidden rounded border bg-zinc-900 shadow-sm duration-500 animate-in fade-in-0 hover:shadow"
-                onClick={() => handleSelectProfile(person)}
               >
                 <img
                   className="aspect-square w-full opacity-90 transition-opacity group-hover:opacity-100"
                   src={person.image_path}
                 />
-                <div className="w-full bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-800">
+                <div className="w-full truncate bg-zinc-100 px-3 py-2 text-center text-sm font-medium text-zinc-800">
                   {person.name}
                 </div>
-              </button>
+              </Link>
             );
           })}
         </div>
-        <ProfileDialog
-          open={isViewingProfile}
-          person={selected}
-          onClose={() => setViewingState(false)}
-        />
       </main>
     </div>
   );

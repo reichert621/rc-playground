@@ -1,6 +1,6 @@
 import type {NextApiRequest, NextApiResponse} from 'next';
 
-import RcApiClient from '@/lib/rc';
+import RcApiClient, {formatProfileRenderedContent} from '@/lib/rc';
 import {extractAccessToken} from '@/lib/server';
 
 export default async function handler(
@@ -15,7 +15,18 @@ export default async function handler(
 
   const rc = new RcApiClient(token);
   const id = req.query.id as string;
-  const profile = await rc.fetchProfileById(id);
 
-  res.status(200).json({profile});
+  if (id === 'me') {
+    const profile = await rc.fetchCurrentUser();
+
+    return res
+      .status(200)
+      .json({profile: formatProfileRenderedContent(profile)});
+  } else {
+    const profile = await rc.fetchProfileById(id);
+
+    return res
+      .status(200)
+      .json({profile: formatProfileRenderedContent(profile)});
+  }
 }
