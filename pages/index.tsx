@@ -1,6 +1,7 @@
 import {NextPage} from 'next';
 import React from 'react';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import {signIn, signOut, useSession} from 'next-auth/react';
 
 import {cn} from '@/lib/utils';
@@ -10,7 +11,9 @@ import {useCombinedAuth} from '@/lib/hooks';
 import Spinner from '@/components/Spinner';
 
 const IndexPage: NextPage = () => {
+  const router = useRouter();
   const {session, user, isLoading} = useCombinedAuth();
+  const redirect = (router.query.redirect || '/') as string;
 
   const handleSignOut = async () => {
     db.auth.signOut();
@@ -63,7 +66,11 @@ const IndexPage: NextPage = () => {
           <div className="flex w-full items-center justify-between">
             <div className=""></div>
 
-            <Button variant="outline" size="sm" onClick={() => signIn()}>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => signIn('recurse', {callbackUrl: redirect})}
+            >
               Sign in
             </Button>
           </div>
@@ -143,7 +150,10 @@ const IndexPage: NextPage = () => {
             </div>
           ) : (
             <div className="mx-auto flex w-full max-w-2xl items-center justify-center">
-              <Button size="lg" onClick={() => signIn()}>
+              <Button
+                size="lg"
+                onClick={() => signIn('recurse', {callbackUrl: redirect})}
+              >
                 Authenticate with Recurse
               </Button>
             </div>

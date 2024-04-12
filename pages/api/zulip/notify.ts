@@ -48,12 +48,13 @@ export default async function handler(
   const sender = await rc.fetchCurrentUser();
   const {zulipId, content} = req.body;
 
-  if (!zulipId) {
+  if (!zulipId || !content) {
     return res.status(400).json({error: 'A zulipId and content are required'});
   }
 
   console.log('Notify params:', {zulipId, content});
   const message = await sendDirectMessage({
+    // to: zulipId,
     to: 690086, // me
     content: `**${sender.name} posted on [your wall](https://rc-playground-2024.vercel.app/users/me)**:\n${content}`,
   });

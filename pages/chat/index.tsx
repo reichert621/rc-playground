@@ -169,7 +169,7 @@ const ChatPage: NextPage = () => {
 
   React.useEffect(() => {
     if (status === 'unauthenticated') {
-      router.push('/');
+      router.push({pathname: '/', query: {redirect: router.asPath}});
     }
   }, [status]);
 
