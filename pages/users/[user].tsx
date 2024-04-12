@@ -20,7 +20,7 @@ import {
   PersonOverview,
 } from '@/components/Profile';
 import {Label} from '@/components/ui/label';
-import {ArrowLeftIcon} from 'lucide-react';
+import {ArrowLeftIcon, Trash2Icon} from 'lucide-react';
 
 type RcInstantUser = {
   id: string;
@@ -37,7 +37,15 @@ type RcSpacePost = {
   author?: RcInstantUser | null;
 };
 
-function PostsFeed({posts}: {posts: RcSpacePost[]}) {
+function PostsFeed({
+  posts,
+  currentUser,
+  onDeletePost,
+}: {
+  posts: RcSpacePost[];
+  currentUser: RcInstantUser;
+  onDeletePost: (postId: string) => void;
+}) {
   if (posts.length === 0) {
     return <div className="text-sm text-zinc-400">No posts yet!</div>;
   }
@@ -47,15 +55,16 @@ function PostsFeed({posts}: {posts: RcSpacePost[]}) {
       {posts
         .sort((a, b) => b.timestamp - a.timestamp)
         .map((post) => {
-          const {author, content, timestamp} = post;
+          const {id: postId, author, content, timestamp} = post;
           const ts = dayjs(timestamp);
           const isToday = ts.isSame(dayjs(), 'day');
+          const canDeletePost = author?.email === currentUser.email;
 
           return (
             <div
               key={post.id}
               className={cn(
-                'flex w-full gap-3 border-b-2 border-zinc-100 py-3 duration-500 animate-in fade-in-0'
+                'group flex w-full gap-3 border-b-2 border-zinc-100 py-3 duration-500 animate-in fade-in-0'
               )}
             >
               <div className="flex-0 flex justify-end">
@@ -71,23 +80,39 @@ function PostsFeed({posts}: {posts: RcSpacePost[]}) {
               </div>
 
               <div className="flex-1">
-                {author?.rcId ? (
-                  <Link
-                    className="mb-1 text-sm font-medium text-zinc-900"
-                    href={`/users/${author.rcId}`}
-                  >
-                    {author?.name}
-                  </Link>
-                ) : (
-                  <div className="mb-1 text-sm font-medium text-zinc-900">
-                    {author?.name}
-                  </div>
-                )}
-                <Markdown>{content}</Markdown>
-              </div>
+                <div className="flex justify-between">
+                  {/* This field was added later, so some users may not have it set yet :( */}
+                  {author?.rcId ? (
+                    <Link
+                      className="mb-1 text-sm font-medium text-zinc-900"
+                      href={`/users/${author.rcId}`}
+                    >
+                      {author?.name}
+                    </Link>
+                  ) : (
+                    <div className="mb-1 text-sm font-medium text-zinc-900">
+                      {author?.name}
+                    </div>
+                  )}
 
-              <div className="pt-0.5 text-xs text-zinc-300">
-                {isToday ? ts.format('h:mm a') : ts.format('MMM D')}
+                  <div
+                    className={cn(
+                      'pt-0.5 text-xs text-zinc-300',
+                      canDeletePost && 'group-hover:hidden'
+                    )}
+                  >
+                    {isToday ? ts.format('h:mm a') : ts.format('MMM D')}
+                  </div>
+                  {canDeletePost && (
+                    <button
+                      className="hidden pt-0.5 group-hover:flex"
+                      onClick={() => onDeletePost(postId)}
+                    >
+                      <Trash2Icon className="h-4 w-4 text-red-500" />
+                    </button>
+                  )}
+                </div>
+                <Markdown>{content}</Markdown>
               </div>
             </div>
           );
@@ -172,6 +197,16 @@ function RcSpace({
       });
     } catch (e) {
       console.error('Transaction failed:', e);
+    }
+  };
+
+  const handleDeletePost = async (postId: string) => {
+    try {
+      const txn = tx.posts[postId].delete();
+
+      await db.transact(txn);
+    } catch (err) {
+      console.error('Failed to delete:', err);
     }
   };
 
@@ -268,7 +303,11 @@ function RcSpace({
                 <span className="text-sm text-zinc-400">Loading feed...</span>
               </div>
             ) : posts.length > 0 ? (
-              <PostsFeed posts={posts} />
+              <PostsFeed
+                posts={posts}
+                currentUser={currentUser}
+                onDeletePost={handleDeletePost}
+              />
             ) : (
               <div className="my-4">
                 <span className="text-sm text-zinc-400">No posts yet!</span>
