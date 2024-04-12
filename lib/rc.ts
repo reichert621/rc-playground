@@ -1,4 +1,9 @@
 import axios, {AxiosInstance} from 'axios';
+import Turndown from 'turndown';
+
+import {RcPerson} from '@/lib/types/rc';
+
+const td = new Turndown();
 
 const PERSONAL_API_KEY = process.env.RC_API_KEY;
 
@@ -8,6 +13,17 @@ export const api = (token = PERSONAL_API_KEY) => {
     headers: {Authorization: `Bearer ${token}`},
   });
 };
+
+export function formatProfileRenderedContent(profile: RcPerson) {
+  const {before_rc_rendered, during_rc_rendered, interests_rendered} = profile;
+
+  return {
+    ...profile,
+    before_rc_hl: td.turndown(before_rc_rendered),
+    during_rc_hl: td.turndown(during_rc_rendered),
+    interests_hl: td.turndown(interests_rendered),
+  };
+}
 
 export async function fetchProfiles(
   token: string,

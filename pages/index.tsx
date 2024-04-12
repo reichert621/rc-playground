@@ -40,7 +40,7 @@ const IndexPage: NextPage = () => {
       <header className="mx-auto w-full max-w-4xl bg-white px-4 py-3 dark:bg-zinc-900">
         {user ? (
           <div className="flex w-full items-center justify-between">
-            <div className="flex items-center gap-3">
+            <Link className="flex items-center gap-3" href="/users/me">
               <img
                 className="h-8 w-8 rounded-full"
                 src={user.image!}
@@ -49,7 +49,7 @@ const IndexPage: NextPage = () => {
               <span className="text-sm font-medium text-zinc-400">
                 {user.email}
               </span>
-            </div>
+            </Link>
 
             <Button
               variant="secondary"

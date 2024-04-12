@@ -2,9 +2,10 @@ import {id, init, tx} from '@instantdb/react';
 
 const APP_ID = process.env.NEXT_PUBLIC_INSTANT_APP_ID!;
 
-type Schema = {};
+type Schema = any;
+type Presence = any;
 
-export const db = init<Schema>({appId: APP_ID});
+export const db = init<Schema, Presence>({appId: APP_ID});
 
 export async function seed(channel: string, user: any) {
   const channelId = id();
