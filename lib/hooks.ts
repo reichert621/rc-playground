@@ -23,7 +23,9 @@ export function useCombinedAuth() {
 
   React.useEffect(() => {
     if (instantUser && session) {
-      const u = {...instantUser, ...session.user};
+      // TODO: make sure only appropriate fields are included here
+      // and maybe include "lastSignedInAt" or something
+      const u = {...instantUser, ...session.user, lastSignedInAt: Date.now()};
       // ensure user exists in instantdb
       db.transact(tx.users[u.id!].update(u));
     }
