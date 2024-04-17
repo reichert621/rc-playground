@@ -41,29 +41,29 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.1.tgz#16308cea045f0fc777b6ff20a9f25474dd8293d2"
   integrity sha512-9TANp6GPoMtYzQdt54kfAyMmz1+osLlXdg2ENroU7zzrtflTLrrC/lgrIfaSe+Wu0b89GKccT7vxXA0MoAIO+Q==
 
-"@instantdb/admin@^0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@instantdb/admin/-/admin-0.10.5.tgz#54d6e5bf63d8b3ce6bd43238abab128bea0ab9fe"
-  integrity sha512-UAa2UtffdEIQ8QozUfMIJkmV6uQCqEgUpw9GpyQxrQavCHgOqll2Q6g4J+1OogvC7j0buWCzjZuafbSKl//p8g==
+"@instantdb/admin@^0.10.6":
+  version "0.10.6"
+  resolved "https://registry.yarnpkg.com/@instantdb/admin/-/admin-0.10.6.tgz#2cae422b04261806de8952994df02616f82ea96f"
+  integrity sha512-4Z/1z1S+7kw/XAeBTyISh5BwhAFQbEEl+MD4QEXZsiHgoEfUHLy5pIlkOY4XJ85cm5CfQLOplfFFZJRr+QBBBQ==
   dependencies:
-    "@instantdb/core" "0.10.5"
+    "@instantdb/core" "0.10.6"
     uuid "^9.0.1"
 
-"@instantdb/core@0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@instantdb/core/-/core-0.10.5.tgz#6b786261b305552115da16b976452aef59bd02c5"
-  integrity sha512-FDCQgnR0uagYTSclks+7i5ehm+8IJAVQqY14P3dtNj8gJTXGgxPCIwWQs9z/VKv2Ggpwl+Acv1aZdYMrI/V6ng==
+"@instantdb/core@0.10.6":
+  version "0.10.6"
+  resolved "https://registry.yarnpkg.com/@instantdb/core/-/core-0.10.6.tgz#7bc79c15e21ebf2e01bd24c572982d41221e68aa"
+  integrity sha512-ZmXHzFfnZUsg8eHmkzk6z9bJs+xZIJk2rL99YWvzwh+mCG9WM1Xjog5yO2ZNwNR2v/WSUZOhlp5eSlkLtPNvsw==
   dependencies:
     immer "9.0.14"
     object-hash "^3.0.0"
     uuid "^9.0.0"
 
-"@instantdb/react@^0.10.5":
-  version "0.10.5"
-  resolved "https://registry.yarnpkg.com/@instantdb/react/-/react-0.10.5.tgz#11dc414da4aa9a320753a29a9bf2b0d9adf0be3d"
-  integrity sha512-/gEY3OwJJhcprVWynpbtNZ0rrEQ/coGGcT9PnmOEgz/1+u+5Kuj5wjc3076M8e9ITHtBYtkU9+0vq6TOq48YrQ==
+"@instantdb/react@^0.10.6":
+  version "0.10.6"
+  resolved "https://registry.yarnpkg.com/@instantdb/react/-/react-0.10.6.tgz#d9de7254f5739782b96be37cdca0a2b8ec5cffad"
+  integrity sha512-4++0BK4QwOptNeRmKIlDJVwcDMJCBLbHG1HRYGbOk7AKQedme5FgOOPTZLjqCjE3Pr57UtLTw5N6rruM8uhDwg==
   dependencies:
-    "@instantdb/core" "0.10.5"
+    "@instantdb/core" "0.10.6"
 
 "@isaacs/cliui@^8.0.2":
   version "8.0.2"
