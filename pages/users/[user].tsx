@@ -2,8 +2,9 @@ import {NextPage} from 'next';
 import React from 'react';
 import {useRouter} from 'next/router';
 import dayjs from 'dayjs';
-import {id, tx} from '@instantdb/react';
+import {Cursors, id, tx} from '@instantdb/react';
 import Link from 'next/link';
+import {ArrowLeftIcon, Trash2Icon} from 'lucide-react';
 
 import {cn} from '@/lib/utils';
 import {RcPerson} from '@/lib/types/rc';
@@ -20,7 +21,6 @@ import {
   PersonOverview,
 } from '@/components/Profile';
 import {Label} from '@/components/ui/label';
-import {ArrowLeftIcon, Trash2Icon} from 'lucide-react';
 
 type RcInstantUser = {
   id: string;
@@ -221,113 +221,131 @@ function RcSpace({
   });
 
   return (
-    <main className={className}>
-      <div className="flex w-full flex-1 flex-col gap-4 sm:flex-row">
-        <div className="flex max-h-screen flex-col py-4 sm:sticky sm:top-0 sm:w-64 sm:py-12">
-          <div className="flex flex-1 flex-col rounded-md border bg-white p-4">
-            <PersonOverview person={person} />
-            <PersonContactInfo person={person} />
-            {Object.values(peers).length > 0 && (
-              <div className="mt-4 border-t-2 border-zinc-100 pt-4">
-                <Label>Current Visitors</Label>
-                <div className="mt-2 flex flex-col gap-2">
-                  {Object.values(peers).map((peer) => (
-                    <div
-                      key={peer.email}
-                      className="flex items-center gap-2 duration-500 animate-in fade-in-0"
+    <Cursors
+      room={room}
+      renderCursor={({presence}) => {
+        const {id, name, image} = presence;
+
+        return (
+          <img
+            key={id}
+            className="h-6 w-6 rounded-b-full rounded-r-full border-2 border-blue-400"
+            src={image}
+            alt={name}
+          />
+        );
+      }}
+    >
+      <main className={className}>
+        <div className="flex w-full flex-1 flex-col gap-4 sm:flex-row">
+          <div className="flex max-h-screen flex-col py-4 sm:sticky sm:top-0 sm:w-64 sm:py-12">
+            <div className="flex flex-1 flex-col rounded-md border bg-white p-4">
+              <PersonOverview person={person} />
+              <PersonContactInfo person={person} />
+              {Object.values(peers).length > 0 && (
+                <div className="mt-4 border-t-2 border-zinc-100 pt-4">
+                  <Label>Current Visitors</Label>
+                  <div className="mt-2 flex flex-col gap-2">
+                    {Object.values(peers).map((peer) => (
+                      <div
+                        key={peer.email}
+                        className="flex items-center gap-2 duration-500 animate-in fade-in-0"
+                      >
+                        <img
+                          className="h-6 w-6 rounded-full"
+                          src={peer.image}
+                          alt={peer.name}
+                        />
+                        <span className="text-sm text-zinc-500">
+                          {peer.name}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="flex flex-1 flex-col justify-end">
+                <div className="mt-4 border-t-2 border-zinc-100 pt-2">
+                  <Link href="/users">
+                    <Button
+                      className="flex w-full items-center gap-2"
+                      size="sm"
+                      variant="secondary"
                     >
-                      <img
-                        className="h-6 w-6 rounded-full"
-                        src={peer.image}
-                        alt={peer.name}
-                      />
-                      <span className="text-sm text-zinc-500">{peer.name}</span>
-                    </div>
-                  ))}
+                      <ArrowLeftIcon className="h-4 w-4" />
+                      Back to directory
+                    </Button>
+                  </Link>
                 </div>
               </div>
-            )}
-
-            <div className="flex flex-1 flex-col justify-end">
-              <div className="mt-4 border-t-2 border-zinc-100 pt-2">
-                <Link href="/users">
-                  <Button
-                    className="flex w-full items-center gap-2"
-                    size="sm"
-                    variant="secondary"
-                  >
-                    <ArrowLeftIcon className="h-4 w-4" />
-                    Back to directory
-                  </Button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex flex-1 flex-col gap-4 py-4 sm:py-12">
-          <div className="rounded-md border border-zinc-300 bg-zinc-100 p-4 shadow">
-            <Textarea
-              className="bg-white"
-              rows={3}
-              placeholder="Write something!"
-              value={content}
-              onKeyDown={(e) => {
-                typing.inputProps.onKeyDown(e);
-
-                if (e.metaKey && e.key === 'Enter') {
-                  handlePostMessage();
-                }
-              }}
-              onChange={(e) => setPostContent(e.target.value)}
-            />
-            <div className="mt-2 flex items-start justify-between">
-              <span className="px-2 text-sm text-zinc-400">
-                {displayTypingUsers(typing.active)}
-              </span>
-              <Button size="sm" onClick={() => handlePostMessage()}>
-                Post
-              </Button>
             </div>
           </div>
 
-          <div className="rounded-md border bg-white p-4">
-            <div className="mb-2 border-b-2 pb-2">
-              <h2 className="text-base font-bold leading-none text-zinc-900">
-                Public Feed
-              </h2>
-            </div>
-            {isLoading ? (
-              <div className="my-4 flex items-center gap-2">
-                <Spinner className="h-4 w-4" />
-                <span className="text-sm text-zinc-400">Loading feed...</span>
-              </div>
-            ) : posts.length > 0 ? (
-              <PostsFeed
-                posts={posts}
-                currentUser={currentUser}
-                onDeletePost={handleDeletePost}
+          <div className="flex flex-1 flex-col gap-4 py-4 sm:py-12">
+            <div className="rounded-md border border-zinc-300 bg-zinc-100 p-4 shadow">
+              <Textarea
+                className="bg-white"
+                rows={3}
+                placeholder="Write something!"
+                value={content}
+                onKeyDown={(e) => {
+                  typing.inputProps.onKeyDown(e);
+
+                  if (e.metaKey && e.key === 'Enter') {
+                    handlePostMessage();
+                  }
+                }}
+                onChange={(e) => setPostContent(e.target.value)}
               />
-            ) : (
-              <div className="my-4">
-                <span className="text-sm text-zinc-400">No posts yet!</span>
+              <div className="mt-2 flex items-start justify-between">
+                <span className="px-2 text-sm text-zinc-400">
+                  {displayTypingUsers(typing.active)}
+                </span>
+                <Button size="sm" onClick={() => handlePostMessage()}>
+                  Post
+                </Button>
               </div>
-            )}
-          </div>
-        </div>
-
-        <div className="sticky top-0 hidden max-h-screen w-80 flex-col py-4 sm:py-12 lg:flex">
-          <div className="flex-1 rounded-md border bg-white p-4">
-            <div className="mb-2 border-b-2 pb-2">
-              <h2 className="text-base font-bold leading-none text-zinc-900">
-                About
-              </h2>
             </div>
-            <PersonAbout person={person} />
+
+            <div className="rounded-md border bg-white p-4">
+              <div className="mb-2 border-b-2 pb-2">
+                <h2 className="text-base font-bold leading-none text-zinc-900">
+                  Public Feed
+                </h2>
+              </div>
+              {isLoading ? (
+                <div className="my-4 flex items-center gap-2">
+                  <Spinner className="h-4 w-4" />
+                  <span className="text-sm text-zinc-400">Loading feed...</span>
+                </div>
+              ) : posts.length > 0 ? (
+                <PostsFeed
+                  posts={posts}
+                  currentUser={currentUser}
+                  onDeletePost={handleDeletePost}
+                />
+              ) : (
+                <div className="my-4">
+                  <span className="text-sm text-zinc-400">No posts yet!</span>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="sticky top-0 hidden max-h-screen w-80 flex-col py-4 sm:py-12 lg:flex">
+            <div className="flex-1 rounded-md border bg-white p-4">
+              <div className="mb-2 border-b-2 pb-2">
+                <h2 className="text-base font-bold leading-none text-zinc-900">
+                  About
+                </h2>
+              </div>
+              <PersonAbout person={person} />
+            </div>
           </div>
         </div>
-      </div>
-    </main>
+      </main>
+    </Cursors>
   );
 }
 
