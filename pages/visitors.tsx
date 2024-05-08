@@ -7,6 +7,7 @@ import {cn} from '@/lib/utils';
 import {RcPerson} from '@/lib/types/rc';
 import {useHubVisitors} from '@/lib/api';
 import {ProfileDialog} from '@/components/ProfileDialog';
+import Spinner from '@/components/Spinner';
 
 const IndexPage: NextPage = () => {
   const router = useRouter();
@@ -40,12 +41,17 @@ const IndexPage: NextPage = () => {
         'flex min-h-screen w-full flex-1 flex-col bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100'
       )}
     >
-      <main className="mx-auto w-full max-w-4xl flex-1 bg-white px-8 py-12 dark:bg-zinc-900">
+      <main className="mx-auto flex w-full max-w-4xl flex-1 flex-col bg-white px-8 py-12 dark:bg-zinc-900">
         <h1 className="bg-gradient-to-br from-zinc-950 to-zinc-500 bg-clip-text text-4xl font-bold text-transparent sm:text-5xl sm:leading-snug md:text-6xl md:leading-snug">
           Visitors
         </h1>
         <p className="text-lg text-zinc-500">Who is at the hub today?</p>
 
+        {isLoading && visitors.length === 0 && (
+          <div className="my-8 flex w-full flex-1 flex-col items-center justify-center p-8">
+            <Spinner className="h-8 w-8" />
+          </div>
+        )}
         <div className="my-8 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
           {visitors
             .sort((a, b) => {
