@@ -21,5 +21,5 @@ export default async function handler(
     rc.fetchProfiles({batch_id: previous.id, limit: 50}),
   ]).then((r) => r.flat());
 
-  res.status(200).json({profiles});
+  return res.status(200).json({profiles});
 }
